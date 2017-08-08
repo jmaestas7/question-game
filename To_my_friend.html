@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>Question Game</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  </script>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+</head>
+<body style="background-color: black">
+  <div style="overflow: auto;
+  margin: 0 auto;
+  border-style: dashed;
+  border-color: white;
+  border-width: 5px;
+  width: 100%;">
+  <h1 style="font-size: 27px; font-family: 'Press Start 2P', cursive; color: red; text-align: center; margin: 0 auto;"">Question Game!</h1>
+  <br>
+  <p id="score" style="font-family: 'Press Start 2P', cursive; color: white; text-align: center; margin: 0 auto;"></p>
+  <br>
+  <p id="question" style="font-family: 'Press Start 2P', cursive;color: white; text-align: center; margin: 0 auto;""></p>
+  <br>
+  <script>
+    $(document).ready(function(){
+
+       var questions = {
+         q1: ["One ounce weighs 24 grams", "f"],
+         q2: ["The largest country on Earth is China", "f"],
+         q3: ["There are 7 seas and 6 continents", "f"],
+         q4: ["The U.S. Bicentennial was in 1976", "t"],
+         q5: ["Napoleon died in the Battle of Waterloo", "f"],
+         q6: ["Arizona was the 48th state to join the union", "t"],
+         q7: ["The most Americans killed in any war was in World War Two", "f"],
+         q8: ["The U.S. has the most soldiers of any military", "f"],
+         q9: ["Richard Nixon was NOT the only U.S. President successfully impeached", "t"],
+         q10: ["Only two U.S. Presidents have served more than two terms in office", "f"],
+       };
+
+       var questionIndex = 0;
+       var score = 0;
+
+       questionsArray = [questions.q1, questions.q2, questions.q3, questions.q4, questions.q5, questions.q6, questions.q7, questions.q8, questions.q9, questions.q10];
+
+        var rand = Math.floor((Math.random() *  questionsArray.length));
+
+         var renderQuestion = function() {
+
+           if (questionIndex <= (questionsArray.length - 1)) {
+            $("#question").html(questionsArray[rand][0]);
+           }
+           // If there aren't, render the end game screen.
+           else {
+             $('#question').html("Game Over!");
+             $("#score").html("Final Score: " + score + " out of " + questionsArray.length);
+           }
+         };
+
+       // Function that updates the score...
+        var updateScore = function() {
+           $("#score").html("Score: " + score);
+         };
+
+       renderQuestion();
+       updateScore();
+
+       $(document).keypress(function(event) {
+         // If there are no more questions, stop the function.
+         if (questionIndex === questionsArray.length) {
+          return;
+        }
+        // Determine which key was pressed, make it lowercase, and set it to the userInput variable.
+        var userInput = String.fromCharCode(event.keyCode).toLowerCase();
+        // Only run this code if "t" or "f" were pressed.
+        if (userInput === "t" || userInput === "f" || userInput === "f") {
+          // If they guess the correct answer, increase and update score, alert them they got it right.
+          if (userInput === questionsArray[questionIndex][1]) {
+            alert("Correct!");
+            score++;
+            updateScore();
+          }
+          // If wrong, alert them they are wrong.
+          else {
+            alert("Wrong!");
+          }
+          // Increment the questionIndex variable and call the renderQuestion function.
+          questionIndex++;
+          renderQuestion();
+        }
+
+        else {
+          alert("You have entered an invalid key!");
+        }
+       });
+    });
+ 
+  </script>
+</body>
+</html>
